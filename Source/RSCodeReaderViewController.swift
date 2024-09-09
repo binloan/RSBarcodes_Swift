@@ -109,8 +109,13 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
             return nil
          }
          let position = device.position == .back ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
-         if #available(iOS 10.0, *) {
+          if #available(iOS 13.0, *){
+              let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInUltraWideCamera], mediaType: AVMediaType.video, position: position).devices
+              print("ULTRAWIDE")
+              return devices.first
+          } else if #available(iOS 10.0, *) {
             let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: position).devices
+              print("WIDE")
             return devices.first
          } else {
             for device: AVCaptureDevice in AVCaptureDevice.devices(for: AVMediaType.video) {
